@@ -32,12 +32,34 @@ public class AutobotSettings {
 	
 	public boolean getScannerSetting(String scannerName) {
 		String stateStr = this.mycallback.loadExtensionSetting("AutobotScanner"+scannerName);
+		if (stateStr == null) {
+			return false;
+		}
 		return (stateStr.equals("Active")? true:false);
 	}
 	
 	public void setScannerSetting(String scannerName, boolean state) {
+		if (state) {
+			this.mycallback.registerScannerCheck(getScannerByName(scannerName));
+		} else {
+			this.mycallback.removeScannerCheck(getScannerByName(scannerName));
+		}
 		String stateStr = state? "Active":"Inactive";
 		this.mycallback.saveExtensionSetting("AutobotScanner"+scannerName, stateStr);
+	}
+	
+	public IScannerCheck getScannerByName(String scannerName) {
+		for (ScannerObject scanner: this.activeScanners) {
+			if (scanner.name == scannerName) {
+				return scanner.scanner;
+			}
+		}
+		for (ScannerObject scanner: this.passiveScanners) {
+			if (scanner.name == scannerName) {
+				return scanner.scanner;
+			}
+		}
+		return null;
 	}
 
 	class ScannerObject {
@@ -53,9 +75,13 @@ public class AutobotSettings {
 	
 	public void addActiveScanner (String scannerName, IScannerCheck scannerObject) {
 		this.activeScanners.add(new ScannerObject(scannerName,scannerObject));
+		//This seemingly redundant step registers the scanner to burp
+		this.setScannerSetting(scannerName, this.getScannerSetting(scannerName));
 	}
 	
 	public void addPassiveScanner (String scannerName, IScannerCheck scannerObject) {
 		this.passiveScanners.add(new ScannerObject(scannerName,scannerObject));
+		//This seemingly redundant step registers the scanner to burp
+		this.setScannerSetting(scannerName, this.getScannerSetting(scannerName));
 	}
 }

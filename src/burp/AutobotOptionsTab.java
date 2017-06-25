@@ -34,15 +34,25 @@ public class AutobotOptionsTab extends JPanel {
 		this.settings = settings;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(knowledgeBaseUI(this.settings));
+		this.setBorder(this.uiHelper.componentBorder());
 		this.add(new JSeparator());
-		this.add(passiveScannerUI(this.settings));
+		
+		//Passive Scanner UI
+		this.add(ScannerUI(this.settings,"Passive Scanner Options", "This setting allows "
+				+ "you to select the passive scanners that you wish to use.", 
+				this.settings.getPassiveScanners()));
+		this.add(new JSeparator());
+		
+		//Active Scanner UI
+		this.add(ScannerUI(this.settings,"Active Scanner Options", "This setting allows "
+				+ "you to select the active scanners that you wish to use.", 
+				this.settings.getActiveScanners()));
+		
 	}
 
 	private JPanel knowledgeBaseUI (AutobotSettings settings) {
 		//Set up panel to store all UI elements
-		JPanel kb = new JPanel();
-		kb.setLayout(new BoxLayout(kb, BoxLayout.Y_AXIS));
-		kb.setAlignmentX(LEFT_ALIGNMENT);
+		JPanel kb = this.uiHelper.verticalPanel();
 
 		
 		//Create Title
@@ -83,10 +93,8 @@ public class AutobotOptionsTab extends JPanel {
 		});
 		
 		//Create Panel to display text box and button horizontally
-		JPanel innerPanel = new JPanel();
-		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.X_AXIS));
+		JPanel innerPanel = this.uiHelper.horizontalPanel();
 		innerPanel.setMaximumSize(new Dimension (500,25));
-		innerPanel.setAlignmentX(LEFT_ALIGNMENT);
 		innerPanel.add(textbox);
 		innerPanel.add(this.uiHelper.componentSpacer());
 		innerPanel.add(button);
@@ -96,24 +104,22 @@ public class AutobotOptionsTab extends JPanel {
 		return kb;
 	}
 	
-	private JPanel passiveScannerUI (AutobotSettings settings) {
+	private JPanel ScannerUI (AutobotSettings settings, String title,
+			String description, ArrayList<ScannerObject> list) {
 		//Set up panel to store all UI elements
-		JPanel ps = new JPanel();
-		ps.setLayout(new BoxLayout(ps, BoxLayout.Y_AXIS));
-		ps.setAlignmentX(LEFT_ALIGNMENT);
+		JPanel scanUI = this.uiHelper.verticalPanel();
 
 		
 		//Create Title
-		ps.add(uiHelper.createBurpTitle("Passive Scanner Options"));
-		ps.add(this.uiHelper.componentSpacer());
+		scanUI.add(uiHelper.createBurpTitle(title));
+		scanUI.add(this.uiHelper.componentSpacer());
 		
 		//Create Description
-		ps.add(new JLabel("This setting allows you to select the passive scanners that"
-				+ " you wish to use."));
-		ps.add(this.uiHelper.componentSpacer());
+		scanUI.add(new JLabel(description));
+		scanUI.add(this.uiHelper.componentSpacer());
 		
 		//Retrieve Passive Scanner List
-		ArrayList<ScannerObject> psl = this.settings.getPassiveScanners();
+		ArrayList<ScannerObject> psl = list;
 		
 		for (ScannerObject scanner: psl) {
 			JCheckBox box = new JCheckBox(scanner.name);
@@ -127,11 +133,11 @@ public class AutobotOptionsTab extends JPanel {
 				}
 				
 			});
-			ps.add(box);
-			ps.add(this.uiHelper.componentSpacer());
+			scanUI.add(box);
+			scanUI.add(this.uiHelper.componentSpacer());
 		}
 		
-		return ps;
+		return scanUI;
 	}
 
 }

@@ -17,7 +17,10 @@ public class BurpExtender implements IBurpExtender{
 		
 		
 		for (int i = 0; i < 6; i++) {
-			registerPassiveScanner("Scanner"+i, new AutobotScanner());
+			registerPassiveScanner("PassiveScanner"+i, new AutobotScanner());
+		}
+		for (int i = 0; i < 8; i++) {
+			registerActiveScanner("ActiveScanner"+i, new AutobotScanner());
 		}
 		
 		//Render UI only after doing all the back-end processing
@@ -25,8 +28,10 @@ public class BurpExtender implements IBurpExtender{
 	}
 	
 	public void registerPassiveScanner(String name, IScannerCheck scanner) {
-		//this.mycallbacks.registerScannerCheck(scanner);
 		this.settings.addPassiveScanner(name, scanner);
+	}
+	public void registerActiveScanner(String name, IScannerCheck scanner) {
+		this.settings.addActiveScanner(name, scanner);
 	}
 	
 }
