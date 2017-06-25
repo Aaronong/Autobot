@@ -7,11 +7,11 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Box.Filler;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.border.Border;
 
 public class AutobotUIResources {
@@ -38,6 +38,7 @@ public class AutobotUIResources {
 	public JPanel verticalPanel() {
 		JPanel vertPane = new JPanel();
 		vertPane.setLayout(new BoxLayout(vertPane, BoxLayout.Y_AXIS));
+		vertPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		vertPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		vertPane.setBorder(BorderFactory.createEmptyBorder(0,0,10,0));
 		return vertPane;
@@ -45,19 +46,17 @@ public class AutobotUIResources {
 	
 	public JScrollPane scrollContent(Component content) {
 		JScrollPane scroll = new JScrollPane (content);
-//		scroll.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		return scroll;
-	}
-	
-	public JPanel componentSeperator() {
-		JPanel sepContainer = new JPanel();
-//		sepContainer.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
-		JSeparator sep = new JSeparator();
-		sepContainer.add(sep);
-		return sepContainer;
 	}
 	
 	public Border componentBorder() {
 		return BorderFactory.createEmptyBorder(10, 10, 10, 10);
+	}
+	
+	public Filler pageFiller(int preferredHeight) {
+		Dimension minSize = new Dimension(5, 5);
+		Dimension prefSize = new Dimension(5, preferredHeight);
+		Dimension maxSize = new Dimension(5, 1000);
+		return new Box.Filler(minSize, prefSize, maxSize);
 	}
 }

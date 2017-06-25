@@ -33,21 +33,34 @@ public class AutobotOptionsTab extends JPanel {
 		this.uiHelper = new AutobotUIResources();
 		this.settings = settings;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(knowledgeBaseUI(this.settings));
 		this.setBorder(this.uiHelper.componentBorder());
+		
+		//Knowledge Base UI
+		this.add(knowledgeBaseUI(this.settings));
+		
 		this.add(new JSeparator());
 		
 		//Passive Scanner UI
+		this.add(this.uiHelper.componentSpacer());
 		this.add(ScannerUI(this.settings,"Passive Scanner Options", "This setting allows "
 				+ "you to select the passive scanners that you wish to use.", 
 				this.settings.getPassiveScanners()));
 		this.add(new JSeparator());
 		
 		//Active Scanner UI
+		this.add(this.uiHelper.componentSpacer());
 		this.add(ScannerUI(this.settings,"Active Scanner Options", "This setting allows "
 				+ "you to select the active scanners that you wish to use.", 
 				this.settings.getActiveScanners()));
 		
+		//Add Filler to take up rest of the vertical space 
+		//(500 without any scanners, each scanner takes up 25)
+		int totalSpace = 500;
+		int totalScanners = this.settings.getActiveScanners().size() + this.settings.getPassiveScanners().size();
+		int fillerSpace = totalSpace - totalScanners*25;
+		if (fillerSpace > 0) {
+			this.add(this.uiHelper.pageFiller(fillerSpace));
+		}
 	}
 
 	private JPanel knowledgeBaseUI (AutobotSettings settings) {
@@ -105,7 +118,7 @@ public class AutobotOptionsTab extends JPanel {
 	}
 	
 	private JPanel ScannerUI (AutobotSettings settings, String title,
-			String description, ArrayList<ScannerObject> list) {
+		String description, ArrayList<ScannerObject> list) {
 		//Set up panel to store all UI elements
 		JPanel scanUI = this.uiHelper.verticalPanel();
 

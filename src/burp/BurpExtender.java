@@ -16,7 +16,7 @@ public class BurpExtender implements IBurpExtender{
 		callbacks.setExtensionName("Autobot Scanner");
 		
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 8; i++) {
 			registerPassiveScanner("PassiveScanner"+i, new AutobotScanner());
 		}
 		for (int i = 0; i < 8; i++) {
