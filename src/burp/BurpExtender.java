@@ -5,6 +5,7 @@ public class BurpExtender implements IBurpExtender{
 	public IBurpExtenderCallbacks mycallbacks;
 	public IExtensionHelpers helpers;
 	public AutobotSettings settings;
+	public AutobotKnowledgeBase knowledgebase;
 	
 	
 	@Override
@@ -13,6 +14,7 @@ public class BurpExtender implements IBurpExtender{
 		this.mycallbacks = callbacks;
 		this.helpers = this.mycallbacks.getHelpers();
 		this.settings = new AutobotSettings(this.mycallbacks);
+		this.knowledgebase = new AutobotKnowledgeBase(this.mycallbacks, this.settings);
 		callbacks.setExtensionName("Autobot Scanner");
 		
 		

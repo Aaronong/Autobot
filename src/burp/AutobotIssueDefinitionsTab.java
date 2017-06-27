@@ -27,6 +27,7 @@ public class AutobotIssueDefinitionsTab extends JPanel {
 	private JPanel header() {
 		JPanel head = this.uiHelper.verticalPanel();
 		head.add(this.uiHelper.createBurpTitle("Issue Definitions"));
+		head.add(this.uiHelper.componentSpacer());
 		head.add(new JLabel("This listing contains the definitions of all issues "
 				+ "that can be detected by Autobot Scanner."));
 		return head;
